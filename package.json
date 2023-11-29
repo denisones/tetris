@@ -1,0 +1,27 @@
+{
+  "name": "@lagutkin/tetris",
+  "version": "1.0.0",
+  "description": "Simple tetris",
+  "source": "src/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "parcel src/index.html --port=8087"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denisones/tetris.git"
+  },
+  "keywords": [
+    "tetris",
+    "pet_project"
+  ],
+  "author": "Denis Lagutkin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denisones/tetris/issues"
+  },
+  "homepage": "https://github.com/denisones/tetris#readme",
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+}
