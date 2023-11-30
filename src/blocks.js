@@ -31,13 +31,13 @@ export class Block {
     return false;
   }
 
-  #print(value = 1) {
+  #print(value = this.color) {
     const field = this.#field;
     const rowCount = this.matrix.length,
         colCount = this.matrix[0].length
     for (let row = this.#position.row; row < this.#position.row + rowCount; row++) {
       for (let col = this.#position.col; col < this.#position.col + colCount; col++) {
-        if (this.matrix[row - this.#position.row][col - this.#position.col] === 1) {
+        if (this.matrix[row - this.#position.row][col - this.#position.col] > 0) {
           field[row][col] = value // bug Cannot set properties of undefined (setting '5')
         }
       }
@@ -55,19 +55,19 @@ export class Block {
       const cutRow = [];
       cutField.push(cutRow)
       for (let col = newPosition.col; col < newPosition.col + this.matrix[0].length; col++) {
-        cutRow.push(this.#field[row][col]);
+        cutRow.push(this.#field[row][col] === 0 ? 0 : 1);
       }
     }
 
     for (let row = vertical; row < this.matrix.length; row++) {
       this.matrix[row].forEach((col, colIdx) => {
-        if ((col & cutField[row - vertical][colIdx - horizon]) === 1) cutField[row - vertical][colIdx - horizon] = 0
+        if (((col === 0 ? 0 : 1) & cutField[row - vertical][colIdx - horizon]) === 1) cutField[row - vertical][colIdx - horizon] = 0
       })
     }
 
     return !cutField.some(
         (row, rowIdx) => row.some(
-            (col, colIdx) => this.matrix[rowIdx][colIdx] & col
+            (col, colIdx) => (this.matrix[rowIdx][colIdx] === 0 ? 0 : 1) & col
         )
     )
   }
@@ -103,10 +103,12 @@ export class Block {
   }
 }
 
+export const color = [null, 'cyan', 'yellow', 'purple', 'green', 'red', 'blue', 'orange']
+
 class Square extends Block {
   constructor(field) {
     super(field);
-    this.color = 'cyan';
+    this.color = 1;
     this.matrix = [
       [1, 1],
       [1, 1],
@@ -117,7 +119,7 @@ class Square extends Block {
 class Ship extends Block {
   constructor(field) {
     super(field);
-    this.color = 'yellow';
+    this.color = 2;
     this.matrix = [
       [0, 1, 0],
       [1, 1, 1],
@@ -128,7 +130,7 @@ class Ship extends Block {
 class L extends Block {
   constructor(field) {
     super(field);
-    this.color = 'purple'
+    this.color = 3
     this.matrix = [
       [1, 0],
       [1, 0],
@@ -140,7 +142,7 @@ class L extends Block {
 class J extends Block {
   constructor(field) {
     super(field);
-    this.color = 'green'
+    this.color = 4
     this.matrix = [
       [0, 1],
       [0, 1],
@@ -152,7 +154,7 @@ class J extends Block {
 class Stick extends Block {
   constructor(field) {
     super(field);
-    this.color = 'red'
+    this.color = 5
     this.matrix = [
       [1],
       [1],
@@ -165,7 +167,7 @@ class Stick extends Block {
 class Z extends Block {
   constructor(field) {
     super(field);
-    this.color = 'blue'
+    this.color = 6
     this.matrix = [
       [1, 1, 0],
       [0, 1, 1],
@@ -176,7 +178,7 @@ class Z extends Block {
 class S extends Block {
   constructor(field) {
     super(field);
-    this.color = 'orange'
+    this.color = 7
     this.matrix = [
       [0, 1, 1],
       [1, 1, 0],

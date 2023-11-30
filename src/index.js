@@ -1,5 +1,5 @@
 import './css/index.css'
-import {getRandomBlock} from './blocks'
+import {color, getRandomBlock} from './blocks'
 
 class Tetris {
 
@@ -32,15 +32,15 @@ class Tetris {
 
   #current = getRandomBlock(this.#field);
 
-  #fallTimeout = 500;
+  #fallTimeout = 250;
 
   #loop() {
     requestAnimationFrame(this.#loop.bind(this));
     this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
     this.#field.forEach((row, rowIdx) =>
         row.forEach((col, colIdx) => {
-          if (col === 1) {
-            this.#context.fillStyle = this.#current.color; // 'white';
+          if (col > 0) {
+            this.#context.fillStyle = color[col]; // 'white';
             this.#context.fillRect(colIdx * this.#grid, rowIdx * this.#grid, this.#grid - 1, this.#grid - 1);
           }
         }))
